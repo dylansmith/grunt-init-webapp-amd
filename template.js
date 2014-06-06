@@ -20,7 +20,11 @@ exports.template = function(grunt, init, done) {
   init.process({}, [
     
     // prompt for values
-    init.prompt('name')
+    init.prompt('name'),
+    {
+      name: 'js_namespace',
+      message: 'What top-level JS namespace do you want to use?'
+    }
 
   ], function(err, props) {
     
@@ -32,6 +36,7 @@ exports.template = function(grunt, init, done) {
       'grunt': '~0.4.2',
       'grunt-contrib-jshint': '~0.10.0',
       'grunt-contrib-concat': '~0.4.0',
+      'grunt-contrib-copy':   '~0.5.0',
       'grunt-contrib-uglify': '~0.4.0',
       'grunt-contrib-watch':  '~0.6.0',
       'grunt-browserify': '~2.1.0',

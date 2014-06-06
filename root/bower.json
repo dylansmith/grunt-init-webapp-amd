@@ -1,0 +1,7 @@
+{
+  "name": "{%= name %}",
+  "dependencies": {
+    "jquery": "~2",
+    "curl": "~0.8"
+  }
+}

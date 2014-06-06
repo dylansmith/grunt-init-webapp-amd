@@ -18,18 +18,36 @@ module.exports = function(grunt) {
       options: {},
       dist: {
         src: 'src/js/**/*.js',
-        dest: 'dist/js/app.js'
+        dest: 'dist/js/build.js'
       }
     },
 
     concat: {
       options: {
-        banner: '<%= banner %>',
-        stripBanners: true
+        // banner: '<%= banner %>',
+        // stripBanners: true
       },
-      dist: {
-        src: ['src/js/**/*.js'],
-        dest: 'dist/js/**/*.js'
+      js: {
+        files: {
+          // core libs including the module loader
+          'dist/js/lib/core.js': [
+            'bower_components/jquery/dist/jquery.min.js',
+            'bower_components/curl/dist/curl-kitchen-sink/curl.js',
+            'src/js/loader.js'
+          ],
+          'dist/js/app.js': [
+            'src/js/app.js'
+          ]
+        }
+      }
+    },
+
+    copy: {
+      js_libs: {
+        files: [
+          // jquery source map support
+          { expand: true, flatten: true, src: ['bower_components/jquery/dist/jquery.*.*'], dest: 'dist/js/lib/' }
+        ]
       }
     },
 
@@ -61,10 +79,6 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         //banner: '<%= banner %>'
-      },
-      dist: {
-        src: '<%= browserify.dist.dest %>',
-        dest: 'dist/js/app.min.js'
       }
     },
 
@@ -86,6 +100,7 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -94,6 +109,6 @@ module.exports = function(grunt) {
 
   // tasks
   grunt.registerTask('test', ['mocha_istanbul:coverage']);
-  grunt.registerTask('default', ['jshint', 'browserify', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'concat', 'copy']);
 
 };
