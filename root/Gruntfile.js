@@ -2,16 +2,14 @@
 module.exports = function(grunt) {
   'use strict';
 
+  // auto-load grunt tasks & time execution
+  require('load-grunt-tasks')(grunt);
+  require('time-grunt')(grunt);
+
   // Project configuration.
   grunt.initConfig({
     
     pkg: grunt.file.readJSON('package.json'),
-
-    banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-      '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-      '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
-      '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-      ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
 
     /* see: https://www.npmjs.org/package/grunt-browserify */
     browserify: {
@@ -22,10 +20,23 @@ module.exports = function(grunt) {
       }
     },
 
+    clean: {
+      dist: {
+        files: [{
+          dot: true,
+          src: [
+            '.tmp',
+            'dist/*',
+            '!dist/.git*',
+            '!dist/index.html'
+          ]
+        }]
+      }
+    },
+
     concat: {
       options: {
-        // banner: '<%= banner %>',
-        // stripBanners: true
+        stripBanners: true
       },
       js: {
         files: {
@@ -78,7 +89,6 @@ module.exports = function(grunt) {
 
     uglify: {
       options: {
-        //banner: '<%= banner %>'
       }
     },
 
@@ -99,16 +109,20 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-mocha-istanbul');
-  grunt.loadNpmTasks('grunt-browserify');
-
   // tasks
-  grunt.registerTask('test', ['mocha_istanbul:coverage']);
-  grunt.registerTask('default', ['jshint', 'concat', 'copy']);
+  grunt.registerTask('test', [
+    'mocha_istanbul:coverage'
+  ]);
+
+  grunt.registerTask('build', [
+    'clean:dist',
+    'concat',
+    'copy'
+  ]);
+
+  grunt.registerTask('default', [
+    'newer:jshint',
+    'build'
+  ]);
 
 };
