@@ -21,12 +21,12 @@ exports.after = 'You should now install project dependencies with _npm install_ 
 exports.template = function(grunt, init, done) {
 
   init.process({}, [
-    
+
     // prompt for values
     init.prompt('name')
 
   ], function(err, props) {
-    
+
     props.lib_dir = 'src';
     props.test_dir = 'test';
     props.node_version = '>= 0.10.0';
@@ -37,6 +37,7 @@ exports.template = function(grunt, init, done) {
       "grunt-contrib-concat": "~0.4.0",
       "grunt-contrib-copy":   "~0.5.0",
       "grunt-contrib-uglify": "~0.4.0",
+      "grunt-contrib-handlebars": "~0.8.0",
       "grunt-contrib-watch":  "~0.6.0",
       "grunt-browserify": "~2.1.0",
       "grunt-newer": "~0.7.0",

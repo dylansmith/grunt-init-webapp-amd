@@ -1,10 +1,10 @@
 (function() {
 
     curl({
-        baseUrl: 'js/',
+        baseUrl: '',
         preloads: []
     })
-    .next(['app', 'domReady!'])
+    .next(['js/app', 'domReady!'])
     .then(
         // success
         function(app) {

@@ -1,20 +1,25 @@
 (function() {
 
     curl({
-        baseUrl: 'js/',
+        baseUrl: '',
+        pluginPath: '../bower_components/curl/src/curl/plugin/',
         paths: {
-            'bower': '../../bower_components/'
+            'jquery': '../bower_components/jquery/dist/jquery.js',
+            'handlebars': '../bower_components/handlebars/handlebars.runtime.js',
+            'templates': 'templates/compiled.js'
         },
-        pluginPath: 'bower/curl/src/curl/plugin/',
         preloads: [
-            'js!bower/jquery/dist/jquery.js'
+            'js!jquery',
+            'js!handlebars',
+            'js!templates'
         ]
     })
-    .next(['app', 'domReady!'])
+    .next(['js/app', 'domReady!'])
     .then(
         // success
         function(app) {
             app.init();
+
         },
         // failure
         function (err) {

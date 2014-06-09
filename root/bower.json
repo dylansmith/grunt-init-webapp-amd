@@ -2,7 +2,9 @@
   "name": "{%= name %}",
   "private": true,
   "dependencies": {
+    "backbone": "~1.1.2",
     "curl": "~0.8",
+    "handlebars": "~1.0.0",
     "jquery": "~2",
     "modernizr": "~2.6.2"
   },

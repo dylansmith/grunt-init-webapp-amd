@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    
+
     pkg: grunt.file.readJSON('package.json'),
 
     /* see: https://www.npmjs.org/package/grunt-browserify */
@@ -42,8 +42,10 @@ module.exports = function(grunt) {
         files: {
           // core libs including the module loader
           'dist/js/lib/core.js': [
-            'bower_components/jquery/dist/jquery.min.js',
             'bower_components/curl/dist/curl-kitchen-sink/curl.js',
+            'bower_components/jquery/dist/jquery.min.js',
+            'bower_components/handlebars/handlebars.runtime.js',
+            'src/templates/compiled.js',
             'src/js/loader.js'
           ],
           'dist/js/app.js': [
@@ -59,6 +61,24 @@ module.exports = function(grunt) {
           // jquery source map support
           { expand: true, flatten: true, src: ['bower_components/jquery/dist/jquery.*.*'], dest: 'dist/js/lib/' }
         ]
+      }
+    },
+
+    handlebars: {
+      options: {
+        amd: false,
+        namespace: 'JST',
+        processName: function(filePath) {
+          return filePath.replace('src/templates/', '').replace(/\.hbs$/i, '');
+        },
+        processPartialName: function(filePath) {
+          return filePath.replace('src/templates/', '').replace(/\.hbs$/i, '');
+        }
+      },
+      templates: {
+        files: {
+          'src/templates/compiled.js': ['src/templates/**/*.hbs']
+        }
       }
     },
 
@@ -101,6 +121,10 @@ module.exports = function(grunt) {
         files: '<%= jshint.src.src %>',
         tasks: ['jshint:src']
       },
+      templates: {
+        files: 'src/templates',
+        tasks: ['handlebars:templates']
+      },
       test: {
         files: '<%= jshint.test.src %>',
         tasks: ['jshint:test', 'test']
@@ -116,6 +140,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'handlebars:templates',
     'concat',
     'copy'
   ]);

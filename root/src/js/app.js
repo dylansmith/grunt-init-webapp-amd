@@ -1,10 +1,16 @@
-define('app', function() {
-    
+define([], function() {
+
     var Application = {
-            
+
         init: function() {
-            console.log('app initialised!');
+            this.render();
+        },
+
+        render: function() {
+            // render
+            $('#main').html(JST.index({}));
         }
+
     };
 
     return Application;
