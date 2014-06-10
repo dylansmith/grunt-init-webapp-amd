@@ -12,28 +12,30 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     /* see: https://www.npmjs.org/package/grunt-browserify */
-    browserify: {
-      options: {},
-      dist: {
-        src: 'src/js/**/*.js',
-        dest: 'dist/js/build.js'
-      }
-    },
+    // browserify: {
+    //   options: {},
+    //   dist: {
+    //     src: 'src/js/**/*.js',
+    //     dest: 'dist/js/build.js'
+    //   }
+    // },
 
+    /* see: https://github.com/gruntjs/grunt-contrib-clean */
     clean: {
       dist: {
         files: [{
           dot: true,
           src: [
             '.tmp',
-            'dist/*',
-            '!dist/.git*',
-            '!dist/index.html'
+            'public/css/*',
+            'public/js/*',
+            '!.gitignore'
           ]
         }]
       }
     },
 
+    /* see: https://github.com/gruntjs/grunt-contrib-concat */
     concat: {
       options: {
         stripBanners: true
@@ -41,58 +43,81 @@ module.exports = function(grunt) {
       js: {
         files: {
           // core libs including the module loader
-          'dist/js/lib/core.js': [
+          'public/js/core.js': [
             'bower_components/curl/dist/curl-kitchen-sink/curl.js',
-            'bower_components/jquery/dist/jquery.min.js',
-            'bower_components/handlebars/handlebars.runtime.js',
-            'src/templates/compiled.js',
-            'src/js/loader.js'
+            'bower_components/handlebars/handlebars.runtime.min.js',
+            'app/templates/compiled.min.js',
+            'config/loader_prod.js'
           ],
-          'dist/js/app.js': [
-            'src/js/app.js'
+          'public/js/app.js': [
+            'app/app.js'
           ]
         }
       }
     },
 
+    /* see: https://github.com/gruntjs/grunt-contrib-copy */
     copy: {
-      js_libs: {
+      // bootstrap resources
+      bootstrap: {
         files: [
-          // jquery source map support
-          { expand: true, flatten: true, src: ['bower_components/jquery/dist/jquery.*.*'], dest: 'dist/js/lib/' }
+          { src: 'bower_components/bootstrap/dist/js/bootstrap.min.js', dest: 'public/lib/bootstrap', expand: true, flatten: true },
+          { src: 'bower_components/bootstrap/dist/css/bootstrap.min.css', dest: 'public/lib/bootstrap', expand: true, flatten: true },
+          { src: 'bower_components/bootstrap/dist/css/bootstrap.css.map', dest: 'public/lib/bootstrap', expand: true, flatten: true },
+          { src: 'bower_components/bootstrap/dist/fonts/*.*', dest: 'public/lib/bootstrap/fonts', expand: true, flatten: true }
+        ]
+      },
+      // jquery with source map support
+      jquery: {
+        files: [
+          { src: ['bower_components/jquery/dist/jquery.*.*'], dest: 'public/lib/jquery', expand: true, flatten: true }
         ]
       }
     },
 
+    /* see: https://github.com/gruntjs/grunt-contrib-handlebars */
     handlebars: {
       options: {
         amd: false,
         namespace: 'JST',
         processName: function(filePath) {
-          return filePath.replace('src/templates/', '').replace(/\.hbs$/i, '');
+          return filePath.replace('app/templates/', '').replace(/\.hbs$/i, '');
         },
         processPartialName: function(filePath) {
-          return filePath.replace('src/templates/', '').replace(/\.hbs$/i, '');
+          return filePath.replace('app/templates/', '').replace(/\.hbs$/i, '');
         }
       },
       templates: {
         files: {
-          'src/templates/compiled.js': ['src/templates/**/*.hbs']
+          'app/templates/compiled.js': ['app/templates/**/*.hbs']
         }
       }
     },
 
+    /* see: https://github.com/gruntjs/grunt-contrib-jshint */
     jshint: {
       options: { /* use .jshintrc instead */ },
       gruntfile: {
         src: 'Gruntfile.js'
       },
-      src: {
-        src: ['src/js/**/*.js']
+      app: {
+        src: ['app/**/*.js', 'config/**/*.js', '!app/templates/**/*.js']
       },
       test: {
         src: ['test/**/*.js']
       }
+    },
+
+    /* see: https://github.com/gruntjs/grunt-contrib-less */
+    less: {
+      development: {
+        options: {
+          paths: ['less/']
+        },
+        files: {
+          'public/css/app.css': 'less/app.less'
+        }
+      },
     },
 
     /* see: https://www.npmjs.org/package/grunt-mocha-istanbul */
@@ -101,28 +126,53 @@ module.exports = function(grunt) {
         src: 'test',
         options: {
           mask: '*.spec.js',
-          // reporters: dot, spec, nyan, tap, landing, list, progress
-          reporter: 'spec'
+          reporter: 'spec'  // dot, spec, nyan, tap, landing, list, progress
         }
       }
     },
 
+    /* see: https://github.com/gruntjs/grunt-contrib-sass */
+    // sass: {
+    //   dist: {
+    //     options: {
+    //       trace: true,
+    //       unixNewlines: true,
+    //       style: 'nested',    // nested, compact, compressed, expanded
+    //       lineNumbers: true,
+    //     },
+    //     files: {
+    //       'public/css/app.css': ['sass/app.scss']
+    //     }
+    //   }
+    // },
+
+    /* see: https://github.com/gruntjs/grunt-contrib-uglify */
     uglify: {
       options: {
+      },
+      templates: {
+        files: {
+          'app/templates/compiled.min.js': ['app/templates/compiled.js']
+        }
       }
     },
 
+    /* see: https://github.com/gruntjs/grunt-contrib-watch */
     watch: {
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
         tasks: ['jshint:gruntfile']
       },
-      src: {
-        files: '<%= jshint.src.src %>',
-        tasks: ['jshint:src']
+      app: {
+        files: '<%= jshint.app.src %>',
+        tasks: ['jshint:app']
+      },
+      less: {
+        files: 'less/**/*.less',
+        tasks: 'less:development'
       },
       templates: {
-        files: 'src/templates',
+        files: 'app/templates/**/*.hbs',
         tasks: ['handlebars:templates']
       },
       test: {
@@ -141,6 +191,8 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'handlebars:templates',
+    'uglify:templates',
+    'less',
     'concat',
     'copy'
   ]);

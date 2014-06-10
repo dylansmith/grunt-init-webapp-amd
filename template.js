@@ -32,24 +32,21 @@ exports.template = function(grunt, init, done) {
     props.node_version = '>= 0.10.0';
     props.devDependencies = {
       "grunt": "~0.4.2",
-      "grunt-contrib-jshint": "~0.10.0",
       "grunt-contrib-clean": "~0.5.0",
       "grunt-contrib-concat": "~0.4.0",
       "grunt-contrib-copy":   "~0.5.0",
-      "grunt-contrib-uglify": "~0.4.0",
       "grunt-contrib-handlebars": "~0.8.0",
+      "grunt-contrib-jshint": "~0.10.0",
+      "grunt-contrib-less": "~0.11.1",
+      "grunt-contrib-uglify": "~0.4.0",
       "grunt-contrib-watch":  "~0.6.0",
-      "grunt-browserify": "~2.1.0",
       "grunt-newer": "~0.7.0",
       "load-grunt-tasks": "~0.4.0",
       "time-grunt": "~0.3.1",
       "jshint-stylish": "~0.1.5",
       "should": "*",
       "mocha": "*",
-      "grunt-mocha-istanbul": "*",
-      "jquery": "~1.11.0",
-      "lodash": "~2.4.0",
-      "handlebars": "~2.0.0"
+      "grunt-mocha-istanbul": "*"
     }
 
     var files = init.filesToCopy(props);
