@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 
     /* see: https://github.com/gruntjs/grunt-contrib-clean */
     clean: {
-      dist: {
+      build: {
         files: [{
           dot: true,
           src: [
@@ -40,17 +40,11 @@ module.exports = function(grunt) {
       options: {
         stripBanners: true
       },
-      js: {
+      css: {
         files: {
-          // core libs including the module loader
-          'public/js/core.js': [
-            'bower_components/curl/dist/curl-kitchen-sink/curl.js',
-            'bower_components/handlebars/handlebars.runtime.min.js',
-            'app/templates/compiled.min.js',
-            'config/loader_prod.js'
-          ],
-          'public/js/app.js': [
-            'app/app.js'
+          'public/css/app.css': [
+            'bower_components/bootstrap/dist/css/bootstrap.min.css',
+            '.tmp/css/app.css'
           ]
         }
       }
@@ -62,7 +56,6 @@ module.exports = function(grunt) {
       bootstrap: {
         files: [
           { src: 'bower_components/bootstrap/dist/js/bootstrap.min.js', dest: 'public/lib/bootstrap', expand: true, flatten: true },
-          { src: 'bower_components/bootstrap/dist/css/bootstrap.min.css', dest: 'public/lib/bootstrap', expand: true, flatten: true },
           { src: 'bower_components/bootstrap/dist/css/bootstrap.css.map', dest: 'public/lib/bootstrap', expand: true, flatten: true },
           { src: 'bower_components/bootstrap/dist/fonts/*.*', dest: 'public/lib/bootstrap/fonts', expand: true, flatten: true }
         ]
@@ -72,14 +65,20 @@ module.exports = function(grunt) {
         files: [
           { src: ['bower_components/jquery/dist/jquery.*.*'], dest: 'public/lib/jquery', expand: true, flatten: true }
         ]
+      },
+      // requirejs runtime
+      requirejs: {
+        files: [
+          { src: 'bower_components/requirejs/require.js', dest: 'public/lib', expand: true, flatten: true }
+        ]
       }
     },
 
     /* see: https://github.com/gruntjs/grunt-contrib-handlebars */
     handlebars: {
       options: {
-        amd: false,
-        namespace: 'JST',
+        amd: true,
+        namespace: 'App.templates',
         processName: function(filePath) {
           return filePath.replace('app/templates/', '').replace(/\.hbs$/i, '');
         },
@@ -89,7 +88,7 @@ module.exports = function(grunt) {
       },
       templates: {
         files: {
-          'app/templates/compiled.js': ['app/templates/**/*.hbs']
+          '.tmp/templates.js': ['app/templates/**/*.hbs']
         }
       }
     },
@@ -101,7 +100,12 @@ module.exports = function(grunt) {
         src: 'Gruntfile.js'
       },
       app: {
-        src: ['app/**/*.js', 'config/**/*.js', '!app/templates/**/*.js']
+        src: [
+          'app/**/*.js',
+          'config/**/*.js',
+          '!app/templates/**/*.js',
+          '!config/build.*.js'
+        ]
       },
       test: {
         src: ['test/**/*.js']
@@ -112,10 +116,15 @@ module.exports = function(grunt) {
     less: {
       development: {
         options: {
-          paths: ['less/']
+          cleancss: true,       // Compress output using clean-css.
+          compress: true,       // Compress output by removing some whitespaces
+          paths: ['less/'],     // Specifies directories to scan for @import directives when parsing.
+          relativeUrls: false,  // Rewrite urls to be relative.
+          report: 'gzip',       // Report minification [min] or minification+gzip [gzip] results.
+          rootpath: ''          // A path to add on to the start of every url resource.
         },
         files: {
-          'public/css/app.css': 'less/app.less'
+          '.tmp/css/app.css': 'less/app.less'
         }
       },
     },
@@ -131,20 +140,38 @@ module.exports = function(grunt) {
       }
     },
 
-    /* see: https://github.com/gruntjs/grunt-contrib-sass */
-    // sass: {
-    //   dist: {
-    //     options: {
-    //       trace: true,
-    //       unixNewlines: true,
-    //       style: 'nested',    // nested, compact, compressed, expanded
-    //       lineNumbers: true,
-    //     },
-    //     files: {
-    //       'public/css/app.css': ['sass/app.scss']
-    //     }
-    //   }
-    // },
+    /* see: https://github.com/gruntjs/grunt-contrib-requirejs */
+    requirejs: {
+      compile: {
+        options: {
+          baseUrl: 'app',
+          paths: {
+              'backbone'  : '../bower_components/backbone/backbone',
+              'bootstrap' : '../bower_components/bootstrap/dist/js/bootstrap.min',
+              'handlebars': '../bower_components/handlebars/handlebars.runtime',
+              'jquery'    : '../bower_components/jquery/dist/jquery',
+              'lodash'    : '../bower_components/lodash/dist/lodash',
+              'underscore': '../bower_components/lodash/dist/lodash',
+              'templates' : '../.tmp/templates',
+              'config'    : '../config/config'
+          },
+          shim: {
+              'bootstrap' : [ 'jquery' ],
+              'handlebars': { exports: 'Handlebars' },
+              'jquery'    : { exports: '$' },
+              'underscore': { exports: '_' }
+          },
+          name: "../bower_components/almond/almond",
+          include: "app",
+          out: "public/js/app.js",
+          // extras
+          preserveLicenseComments: false,
+          uglify: {
+            max_line_length: 1000
+          }
+        }
+      }
+    },
 
     /* see: https://github.com/gruntjs/grunt-contrib-uglify */
     uglify: {
@@ -152,7 +179,7 @@ module.exports = function(grunt) {
       },
       templates: {
         files: {
-          'app/templates/compiled.min.js': ['app/templates/compiled.js']
+          '.tmp/templates.min.js': ['.tmp/templates.js']
         }
       }
     },
@@ -189,12 +216,13 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'clean:dist',
-    'handlebars:templates',
-    'uglify:templates',
+    'clean:build',
+    'handlebars',
     'less',
+    'requirejs',
+    'copy',
     'concat',
-    'copy'
+    'uglify'
   ]);
 
   grunt.registerTask('default', [

@@ -9,16 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <script type="text/javascript" src="../bower_components/curl/src/curl.js" data-curl-run="../config/loader_dev.js"></script>
-    <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
+    <script type="text/javascript" src="js/app.js"></script>
+    <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 
     <div class="container">
 
         <div class="page-header">
-            <a type="button" href="index_dev.html" class="btn btn-default">development mode</a>
-            <a type="button" href="index_prod.html" class="btn btn-default">production mode</a>
+            <a type="button" href="index.dev.html" class="btn btn-default">development mode</a>
+            <a type="button" href="index.prod.html" class="btn btn-default">production mode</a>
         </div>
 
         <!-- target for handlebars rendering -->
@@ -26,6 +26,12 @@
 
     </div>
 
+    <!-- init the app -->
+    <script type="text/javascript">
+        require(['app'], function(app) {
+            app.init();
+        });
+    </script>
     <div id="body-scripts"></div>
 
 </body>
