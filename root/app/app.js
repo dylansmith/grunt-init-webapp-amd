@@ -14,7 +14,9 @@ function(core) {
 
         render: function() {
             $('title').text(this.config.get('name'));
-            $('#main').html(this.templates.index({}));
+            $('#main').html(this.templates.index({
+                config: JSON.stringify(this.config.vals)
+            }));
         }
 
     };
