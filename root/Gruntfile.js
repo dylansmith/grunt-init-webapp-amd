@@ -144,7 +144,7 @@ module.exports = function(grunt) {
     requirejs: {
       compile: {
         options: {
-          baseUrl: 'app',
+          baseUrl: 'app/',
           paths: {
               'backbone'  : '../bower_components/backbone/backbone',
               'bootstrap' : '../bower_components/bootstrap/dist/js/bootstrap.min',
@@ -161,9 +161,9 @@ module.exports = function(grunt) {
               'jquery'    : { exports: '$' },
               'underscore': { exports: '_' }
           },
-          name: "../bower_components/almond/almond",
-          include: "app",
-          out: "public/js/app.js",
+          name: '../bower_components/almond/almond',
+          include: 'app',
+          out: 'public/js/app.js',
           // extras
           preserveLicenseComments: false,
           uglify: {
