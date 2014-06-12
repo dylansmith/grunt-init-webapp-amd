@@ -229,15 +229,15 @@ module.exports = function(grunt) {
       },
       app: {
         files: '<%= jshint.app.src %>',
-        tasks: ['jshint:app']
+        tasks: ['jshint:app', 'requirejs']
       },
       less: {
         files: 'less/**/*.less',
-        tasks: 'less:development'
+        tasks: ['less', 'concat:css']
       },
       templates: {
         files: 'app/templates/**/*.hbs',
-        tasks: ['handlebars:templates']
+        tasks: ['handlebars:templates', 'uglify', 'requirejs']
       },
       test: {
         files: '<%= jshint.test.src %>',
@@ -253,6 +253,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'jshint',
     'clean:all',
     'newer:imagemin',
     'handlebars',
@@ -264,7 +265,6 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'newer:jshint',
     'build'
   ]);
 

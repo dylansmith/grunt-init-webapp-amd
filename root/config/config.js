@@ -1,9 +1,14 @@
-define(['underscore'], function(_) {
+define([
+    'underscore',
+    'backbone'
+],
+function(_, Backbone) {
 
     var __CONFIG = {
         // common/default configuration
         common: {
-            name: 'App'
+            name: 'App',
+            container: '#main'
         },
 
         // dev environment overrides
@@ -17,7 +22,7 @@ define(['underscore'], function(_) {
         }
     };
 
-    var config = {
+    var config = _.extend({
 
         vals: {},
         env: 'dev',
@@ -36,12 +41,25 @@ define(['underscore'], function(_) {
             return this.vals[key] || undefined;
         },
 
+        getAll: function() {
+            return _.clone(this.vals, true);
+        },
+
         set: function (key, val) {
+            var cfg = this,
+                prev = this.get(key);
+
             this.vals[key] = val;
+            this.trigger('config:update', {
+                key: key,
+                oldval: prev,
+                newval: val,
+                config: cfg
+            });
             return this;
         }
 
-    };
+    }, Backbone.Events);
 
     config.setenv('dev');
     return config;
