@@ -88,3 +88,5 @@ var config = require('config');
 // etc...
 ```
 
+To test the URL-based theming, add ```#/theme/mono``` to the page URL, and you should see the
+mono theme applied.
