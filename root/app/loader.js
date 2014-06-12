@@ -1,5 +1,5 @@
 require.config({
-    baseUrl: '../app/',
+    baseUrl: '../app/', // relative to the HTML path (../public/)
     paths: {
         'backbone'  : '../bower_components/backbone/backbone',
         'bootstrap' : '../public/lib/bootstrap/bootstrap.min',

@@ -1,6 +1,6 @@
-define(['underscore'], function() {
+define(['underscore'], function(_) {
 
-    var CFG = {
+    var __CONFIG = {
         // common/default configuration
         common: {
             name: 'App'
@@ -28,7 +28,7 @@ define(['underscore'], function() {
 
         setenv: function(val) {
             this.env = val;
-            this.vals = _.assign({}, CFG.common, CFG[val] || {});
+            this.vals = _.assign({}, __CONFIG.common, __CONFIG[val] || {});
             return this;
         },
 

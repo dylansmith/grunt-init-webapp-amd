@@ -14,8 +14,8 @@ exports.description = 'Scaffolds a project for browser-based development';
 // Any existing file or directory matching this wildcard will cause a warning.
 exports.warnOn = 'Gruntfile.js';
 
-exports.after = 'You should now install project dependencies with _npm install_ ' +
-  'and _bower install_. After that, you may execute project tasks with _grunt_.';
+exports.after = 'Now install project dependencies with _npm install && ' +
+  'bower install_. After that, run the build with _grunt_.';
 
 // The actual init template.
 exports.template = function(grunt, init, done) {
@@ -27,6 +27,9 @@ exports.template = function(grunt, init, done) {
 
   ], function(err, props) {
 
+    props.description = 'grunt-init template for scaffolding a project for browser-based development',
+    props.private = 'true',
+    props.repository = 'https://github.com/dylansmith/grunt-init-browser',
     props.lib_dir = 'src';
     props.test_dir = 'test';
     props.node_version = '>= 0.10.0';
@@ -34,8 +37,10 @@ exports.template = function(grunt, init, done) {
       "grunt": "~0.4.2",
       "grunt-contrib-clean": "~0.5.0",
       "grunt-contrib-concat": "~0.4.0",
+      "grunt-contrib-connect": "~0.8.0",
       "grunt-contrib-copy": "~0.5.0",
       "grunt-contrib-handlebars": "~0.8.0",
+      "grunt-contrib-imagemin": "~0.7.1",
       "grunt-contrib-jshint": "~0.10.0",
       "grunt-contrib-less": "~0.11.1",
       "grunt-contrib-requirejs": "^0.4.4",

@@ -6,30 +6,24 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
 
-  // Project configuration.
+  // task configuration.
   grunt.initConfig({
 
     pkg: grunt.file.readJSON('package.json'),
 
-    /* see: https://www.npmjs.org/package/grunt-browserify */
-    // browserify: {
-    //   options: {},
-    //   dist: {
-    //     src: 'src/js/**/*.js',
-    //     dest: 'dist/js/build.js'
-    //   }
-    // },
-
     /* see: https://github.com/gruntjs/grunt-contrib-clean */
     clean: {
-      build: {
+      all: {
         files: [{
           dot: true,
           src: [
             '.tmp',
-            'public/css/*',
-            'public/js/*',
-            '!.gitignore'
+            'public/*.*',
+            'public/css/*.*',
+            'public/js/*.*',
+            'public/lib/*',
+            '!**/.gitignore',
+            '!public/index.*.html'
           ]
         }]
       }
@@ -60,13 +54,13 @@ module.exports = function(grunt) {
           { src: 'bower_components/bootstrap/dist/fonts/*.*', dest: 'public/lib/bootstrap/fonts', expand: true, flatten: true }
         ]
       },
-      // jquery with source map support
+      // jquery.min + source map
       jquery: {
         files: [
           { src: ['bower_components/jquery/dist/jquery.*.*'], dest: 'public/lib/jquery', expand: true, flatten: true }
         ]
       },
-      // requirejs runtime
+      // requirejs
       requirejs: {
         files: [
           { src: 'bower_components/requirejs/require.js', dest: 'public/lib', expand: true, flatten: true }
@@ -77,12 +71,22 @@ module.exports = function(grunt) {
     /* see: https://github.com/gruntjs/grunt-contrib-handlebars */
     handlebars: {
       options: {
-        amd: true,
-        namespace: 'App.templates',
+        amd: true,                      // Wraps the output file with an AMD define function and returns the compiled template namespace unless namespace has been explicitly set to false in which case the template function will be returned directly.
+        commonjs: false,                // Wraps the output file in a CommonJS module function, exporting the compiled templates. It will also add templates to the template namespace, unless namespace is explicitly set to false.
+        compilerOptions: {},            // This option allows you to specify a hash of options which will be passed directly to the Handlebars compiler.
+        namespace: 'App.templates',     // The namespace in which the precompiled templates will be assigned.
+        node: false,                    // Enable the compiled file to be required on node.js by preppending and appending proper declarations.
+        partialRegex: /^_/,             // This option accepts a regex that defines the prefix character that is used to identify Handlebars partial files.
+        partialsPathRegex: /./,         // This option accepts a regex that defines the path to a directory of Handlebars partials files.
+        partialsUseNamespace: false,    // When set to true, partials will be registered in the namespace in addition to templates.
+        wrapped: true,                  // Determine if preprocessed template functions will be wrapped in Handlebars.template function.
+        /*-- processing callbacks --*/
+        // processAST:          function(ast) {},
+        // processContent:      function(content, filepath) {},
+        // processPartialName:  function(filePath) {}
         processName: function(filePath) {
-          return filePath.replace('app/templates/', '').replace(/\.hbs$/i, '');
-        },
-        processPartialName: function(filePath) {
+          // This option accepts a function which takes one argument (the template filepath)
+          // and returns a string which will be used as the key for the precompiled template object.
           return filePath.replace('app/templates/', '').replace(/\.hbs$/i, '');
         }
       },
@@ -93,18 +97,36 @@ module.exports = function(grunt) {
       }
     },
 
+    /* see: */
+    imagemin: {
+      options: {
+        interlaced: true,       // Interlace GIF for progressive rendering.
+        optimizationLevel: 3,   // Select PNG optimization level between 0 and 7.
+        progressive: true,      // Lossless PNG conversion to progressive.
+        use: null               // Additional plugins to use with imagemin. [Array]
+      },
+      all: {
+        files: [{
+          cwd: 'public/img/',           // Src matches are relative to this path
+          dest: 'public/img/',          // Destination path prefix
+          expand: true,                 // Enable dynamic expansion
+          src: ['**/*.{png,jpg,gif}']   // Actual patterns to match
+        }]
+      }
+    },
+
     /* see: https://github.com/gruntjs/grunt-contrib-jshint */
     jshint: {
-      options: { /* use .jshintrc instead */ },
+      options: {
+        reporter: require('jshint-stylish')
+      },
       gruntfile: {
         src: 'Gruntfile.js'
       },
       app: {
         src: [
           'app/**/*.js',
-          'config/**/*.js',
-          '!app/templates/**/*.js',
-          '!config/build.*.js'
+          'config/**/*.js'
         ]
       },
       test: {
@@ -114,15 +136,30 @@ module.exports = function(grunt) {
 
     /* see: https://github.com/gruntjs/grunt-contrib-less */
     less: {
-      development: {
-        options: {
-          cleancss: true,       // Compress output using clean-css.
-          compress: true,       // Compress output by removing some whitespaces
-          paths: ['less/'],     // Specifies directories to scan for @import directives when parsing.
-          relativeUrls: false,  // Rewrite urls to be relative.
-          report: 'gzip',       // Report minification [min] or minification+gzip [gzip] results.
-          rootpath: ''          // A path to add on to the start of every url resource.
-        },
+      options: {
+        cleancss: false,          // Compress output using clean-css.
+        compress: false,          // Compress output by removing some whitespaces,
+        customFunctions: {},      // Define custom functions to be available within your LESS stylesheets.
+        dumpLineNumbers: false,   // Configures -sass-debug-info support. Accepts following values: comments, mediaquery, all.
+        ieCompat: true,           // Enforce the css output is compatible with Internet Explorer 8.
+        modifyVars: {},           // Overrides global variables. Equivalent to --modify-vars='VAR=VALUE' option in less.
+        optimization: null,       // Set the parser's optimization level. The lower the number, the less nodes it will create in the tree.
+        outputSourceFiles: false, // Puts the less files into the map instead of referencing them.
+        paths: ['less/'],         // Specifies directories to scan for @import directives when parsing.
+        relativeUrls: false,      // Rewrite urls to be relative.
+        report: 'min',            // Report minification [min] or minification+gzip [gzip] results.
+        rootpath: '',             // A path to add on to the start of every url resource.
+        sourceMap: false,         // Enable source maps.
+        sourceMapBasepath: '',    // Sets the base path for the less file paths in the source map.
+        sourceMapFilename: '',    // Write the source map to a separate file with the given filename.
+        sourceMapRootpath: '',    // Adds this path onto the less file paths in the source map.
+        sourceMapURL: '',         // Override the default url that points to the sourcemap from the compiled css file.
+        strictImports: false,     // Force evaluation of imports.
+        strictMath: false,        // When enabled, math is required to be in parenthesis.
+        strictUnits: false,       // When enabled, less will validate the units used (e.g. 4px/2px = 2, not 2px and 4em/2px throws an error).
+        syncImport: false         // Read @import'ed files synchronously from disk.
+      },
+      all: {
         files: {
           '.tmp/css/app.css': 'less/app.less'
         }
@@ -164,7 +201,7 @@ module.exports = function(grunt) {
           name: '../bower_components/almond/almond',
           include: 'app',
           out: 'public/js/app.js',
-          // extras
+          // extras (see: https://github.com/jrburke/r.js/blob/master/build/example.build.js)
           preserveLicenseComments: false,
           uglify: {
             max_line_length: 1000
@@ -216,7 +253,8 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'clean:build',
+    'clean:all',
+    'newer:imagemin',
     'handlebars',
     'less',
     'requirejs',
