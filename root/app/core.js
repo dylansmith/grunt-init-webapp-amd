@@ -1,18 +1,22 @@
 define([
-    'jquery',
     'underscore',
+    'jquery',
+    'modernizr',
     'bootstrap',
     'backbone',
     'handlebars',
     'templates',
     'config'
 ],
-function($, _, undefined, Backbone, Handlebars, templates, config) {
-    return {
-        '$': $,
-        'Backbone': Backbone,
-        'Handlebars': Handlebars,
-        'templates': templates,
-        'config': config
-    };
+function(_) {
+    return _.zipObject([
+        '_',
+        '$',
+        'Modernizr',
+        'bootstrap',
+        'Backbone',
+        'Handlebars',
+        'templates',
+        'config'
+    ], arguments);
 });

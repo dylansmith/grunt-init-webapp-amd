@@ -4,8 +4,10 @@ define([
     'views/home'
 ],
 function(core, Router, HomeView) {
+    'use strict';
 
-    var App = {
+    var $ = core.jquery,
+        App = {
 
         config: core.config,
         currentView: null,
@@ -17,7 +19,7 @@ function(core, Router, HomeView) {
             core.Backbone.history.start();
 
             // listen for global config changes
-            core.config.on('config:update', this.configObserver, this);
+            this.config.on('config:update', this.configObserver, this);
 
             // load the home view
             this.currentView = new HomeView();
@@ -43,5 +45,13 @@ function(core, Router, HomeView) {
 
     };
 
+    // expose via the configured public namespace
+    var namespace = App.config.get('js_namespace');
+    if (namespace) {
+        window[namespace] = App;
+    }
+
+    // now initialise & return
+    App.init();
     return App;
 });

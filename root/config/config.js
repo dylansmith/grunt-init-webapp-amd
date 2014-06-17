@@ -8,7 +8,8 @@ function(_, Backbone) {
         // common/default configuration
         common: {
             name: 'App',
-            container: '#main'
+            container: '#main',
+            js_namespace: 'app'
         },
 
         // dev environment overrides
