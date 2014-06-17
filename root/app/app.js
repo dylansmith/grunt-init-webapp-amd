@@ -6,8 +6,7 @@ define([
 function(core, Router, HomeView) {
     'use strict';
 
-    var $ = core.jquery,
-        App = {
+    var App = {
 
         config: core.config,
         currentView: null,
