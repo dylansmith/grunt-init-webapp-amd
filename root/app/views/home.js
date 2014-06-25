@@ -1,19 +1,18 @@
 define([
-    'core'
+    'core',
+    'views/base'
 ],
-function(core) {
+function(core, BaseView) {
     'use strict';
 
-    var HomeView = core.Backbone.View.extend({
+    var HomeView = BaseView.extend({
 
-        el: core.config.get('container'),
-        template: core.templates.home,
+        templateId: 'home',
 
-        render: function() {
-            this.$el.html(this.template({
+        getState: function() {
+            return {
                 config: JSON.stringify(core.config.vals)
-            }));
-            return this;
+            };
         }
     });
 

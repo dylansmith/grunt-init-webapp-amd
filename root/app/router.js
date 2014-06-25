@@ -5,13 +5,11 @@ define([
 
     var Router = core.Backbone.Router.extend({
         routes: {
-            'theme/:id': 'index'
-        },
-
-        index: function(themeId) {
-            core.config.set('theme', themeId);
+            ''          : 'home',
+            'home'      : 'home',
+            'view/:id'  : 'setView',
+            'theme/:id' : 'setTheme'
         }
-
     });
 
     return Router;

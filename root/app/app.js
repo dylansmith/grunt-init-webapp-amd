@@ -1,7 +1,8 @@
 define([
     'core',
     'router',
-    'views/home'
+    'views/home',
+    'views/(bundle)'
 ],
 function(core, Router, HomeView) {
     'use strict';
@@ -14,19 +15,60 @@ function(core, Router, HomeView) {
         templates: core.templates,
 
         init: function() {
-            // commence routing
-            core.Backbone.history.start();
+            // set the environment
+            var env = $('meta[name="application-env"').attr('content');
+            if (env) {
+                this.config.setenv(env);
+            }
 
-            // listen for global config changes
+            // listen for config changes
             this.config.on('config:update', this.configObserver, this);
 
-            // load the home view
+            // respond to routes
+            this.router.on('route:home', _.bind(this.setView, this, 'home'));
+            this.router.on('route:setView', _.bind(this.setView, this));
+            this.router.on('route:setTheme', _.bind(this.setTheme, this));
+
+            // set the default view
             this.currentView = new HomeView();
-            this.render();
+
+            // commence routing
+            core.Backbone.history.start();
         },
 
         render: function() {
             this.currentView.render();
+        },
+
+        setView: function(viewId) {
+            var app = this;
+            try {
+                require(
+                    ['views/' + viewId],
+                    function(View) {
+                        app.currentView = new View();
+                        app.currentView.render();
+                    },
+                    function(err) {
+                        app.setView('404');
+                    },
+                    undefined,
+                    // force syncronous require for prod environment running almond,
+                    // otherwise we lose the callstack for try/catch due to setTimeout
+                    (this.config.getenv() === 'prod')
+                );
+            }
+            catch (err) {
+                // prevent infinite recursion
+                if (viewId !== '404') {
+                    app.setView('404');
+                }
+            }
+        },
+
+        setTheme: function(themeId) {
+            this.config.set('theme', themeId);
+            this.render();
         },
 
         configObserver: function(evt) {
