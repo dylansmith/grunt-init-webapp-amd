@@ -1,5 +1,5 @@
 define([
-    'underscore',
+    'lodash',
     'jquery',
     'modernizr',
     'bootstrap',

@@ -16,7 +16,7 @@ function(core, Router, HomeView) {
 
         init: function() {
             // set the environment
-            var env = $('meta[name="application-env"').attr('content');
+            var env = $('meta[name="application-env"]').attr('content');
             if (env) {
                 this.config.setenv(env);
             }

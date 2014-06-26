@@ -11,6 +11,19 @@ using the following libraries:
 * Modernizr
 * requirejs + almond
 
+Cross-browser testing with multiple assertion libraries, AMD support and coverage reports is
+also available, thanks to:
+
+* Karma
+* Mocha
+* Sinon
+* Chai
+* Expect
+* Should
+* Istanbul
+
+Tests are configured to run in PhantomJS, Chrome & Safari (more can be added).
+
 ## Requirements
 
 ```bash
@@ -30,15 +43,15 @@ $ grunt
 $ open public/index.dev.html
 ```
 
-## Demo
+## Demo application
 
-The demo application has the following structure:
+The demo application is very basic Backbone app with the following structure:
 
 * an [application object](app/app.js) that gets things going
 * an observable [configuration object](config/config.js) that stores application state
 * a [HomeView](app/views/home.js) that renders a [handlebars template](app/templates/home.hbs)
   when the app is initialised
-* a [router](app/router.js)
+* a [router](app/router.js) that allows the app to switch views, falling back to a 404 view
 * an [application stylesheet](less/app.less)
 
 ### Changing the theme
