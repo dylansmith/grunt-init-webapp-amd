@@ -21,12 +21,35 @@ define(function(require) {
             _.isObject(app.templates).should.eql(true);
         });
 
-        describe('#setView', function() {
+        it('should initially render the HomeView', function() {
+            var HomeView = require('views/home');
+            app.currentView.constructor.should.eql(HomeView);
+        });
 
-            it('should set app.currentView to the view instance', function() {
-                //app.setView('home');
+        describe('#setView (valid)', function() {
 
+            beforeEach(function(done) {
+                app.setView('home', function() {
+                    done();
+                });
+            });
 
+            it('should set app.currentView to a valid view instance', function(done) {
+                var ConfigView = require('views/config');
+                app.currentView.constructor.should.not.equal(ConfigView);
+                app.setView('config', function() {
+                    app.currentView.constructor.should.equal(ConfigView);
+                    done();
+                });
+            });
+
+            it('should set fallback to 404 if the viewId is invalid', function(done) {
+                var NotFoundView = require('views/404');
+                app.currentView.constructor.should.not.equal(NotFoundView);
+                app.setView('NONEXISTANT', function() {
+                    app.currentView.constructor.should.equal(NotFoundView);
+                    done();
+                });
             });
 
         });
