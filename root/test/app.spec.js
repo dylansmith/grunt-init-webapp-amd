@@ -6,23 +6,23 @@ define(function(require) {
             _ = require('lodash');
 
         it('should auto-initialise', function() {
-            app.initialised.should.equal(true);
+            app.initialised.should.be.true;
         });
 
         it('should have an #init method', function() {
-            _.isFunction(app.init).should.equal(true);
+            _.isFunction(app.init).should.be.true;
         });
 
         it('should have an #render method', function() {
-            _.isFunction(app.render).should.equal(true);
+            _.isFunction(app.render).should.be.true;
         });
 
         it('should have a #config property', function() {
-            _.isObject(app.config).should.equal(true);
+            _.isObject(app.config).should.be.true;
         });
 
         it('should have a #templates property', function() {
-            _.isObject(app.templates).should.equal(true);
+            _.isObject(app.templates).should.be.true;
         });
 
         describe('#init', function() {
@@ -52,7 +52,7 @@ define(function(require) {
                 app.currentView.should.be.ok;
                 spy = sinon.spy(app.currentView, 'render');
                 app.render();
-                spy.calledOnce.should.equal(true);
+                spy.calledOnce.should.be.true;
             });
 
         });

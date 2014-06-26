@@ -39,7 +39,7 @@ function(_, Backbone) {
         },
 
         get: function (key) {
-            return this.vals[key] || undefined;
+            return this.vals[key];
         },
 
         getAll: function() {

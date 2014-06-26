@@ -130,6 +130,10 @@ module.exports = function(grunt) {
         ]
       },
       test: {
+        options: {
+          // using "should" requires expressions without assignment
+          expr: true
+        },
         src: ['test/**/*.spec.js']
       }
     },
