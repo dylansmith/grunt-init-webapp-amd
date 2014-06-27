@@ -22,6 +22,12 @@ function(core, Router, HomeView) {
                 this.config.setenv(env);
             }
 
+            // expose via the configured public namespace
+            var ns = this.config.get('js_namespace');
+            if (ns) {
+                window[ns] = this;
+            }
+
             if (this.initialised === false) {
                 // listen for config changes
                 this.config.on('config:update', this.configObserver, this);
@@ -98,12 +104,6 @@ function(core, Router, HomeView) {
         }
 
     };
-
-    // expose via the configured public namespace
-    var namespace = App.config.get('js_namespace');
-    if (namespace) {
-        window[namespace] = App;
-    }
 
     // now initialise & return
     App.init();

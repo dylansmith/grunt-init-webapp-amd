@@ -1,20 +1,18 @@
 define(function(require) {
+    'use strict';
 
     describe('App', function() {
 
         var app = require('app'),
             _ = require('lodash');
 
+        beforeEach(function() {
+            app.config.set('js_namespace', 'test_app');
+            app.init();
+        });
+
         it('should auto-initialise', function() {
             app.initialised.should.be.true;
-        });
-
-        it('should have an #init method', function() {
-            _.isFunction(app.init).should.be.true;
-        });
-
-        it('should have an #render method', function() {
-            _.isFunction(app.render).should.be.true;
         });
 
         it('should have a #config property', function() {
@@ -26,6 +24,12 @@ define(function(require) {
         });
 
         describe('#init', function() {
+
+            it('should be exposed via a global namespace if the "js_namespace" config option is set', function() {
+                var ns = app.config.get('js_namespace');
+                ns.should.equal('test_app');
+                window[ns].should.equal(app);
+            });
 
             it('should attempt to set the environment based on a meta element', function() {
                 app.config.getenv().should.not.equal('prod');

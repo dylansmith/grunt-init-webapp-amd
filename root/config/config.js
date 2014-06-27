@@ -3,6 +3,7 @@ define([
     'backbone'
 ],
 function(_, Backbone) {
+    'use strict';
 
     var __CONFIG = {
         // common/default configuration
@@ -27,6 +28,13 @@ function(_, Backbone) {
 
         vals: {},
         env: 'dev',
+
+        init: function(vals, env) {
+            if (_.isObject(vals)) {
+                __CONFIG = vals;
+            }
+            this.setenv(env || this.env);
+        },
 
         getenv: function() {
             return this.env;
@@ -62,6 +70,6 @@ function(_, Backbone) {
 
     }, Backbone.Events);
 
-    config.setenv('dev');
+    config.init(__CONFIG, 'dev');
     return config;
 });

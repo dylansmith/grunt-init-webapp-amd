@@ -54,6 +54,8 @@ exports.template = function(grunt, init, done) {
       "karma-coverage": "^0.2.4",
       "karma-expect": "^1.1.0",
       "karma-mocha": "^0.1.4",
+      "karma-mocha-reporter": "^0.2.6",
+      "karma-nyan-reporter": "0.0.43",
       "karma-phantomjs-launcher": "^0.1.4",
       "karma-requirejs": "^0.2.2",
       "karma-safari-launcher": "^0.1.1",

@@ -37,13 +37,14 @@ module.exports = function(config) {
     plugins: ['karma-*'],             // List of plugins to load. A plugin can be a string (in which case it will be required by Karma) or an inlined plugin - Object. By default, Karma loads all siblink modules, that match karma-*.
     port: 9876,                       // The port where the webserver will be listening.
     preprocessors: {                  // A map of preprocessors to use.
-      'app/**/*.js': 'coverage'
+      'app/**/*.js': 'coverage',
+      'config/**/*.js': 'coverage'
     },
     proxies: {},                      // A map of path-proxy pairs.
     proxyValidateSSL: true,           // Whether or not karma or any browsers should raise an error when an inavlid SSL certificate is found.
     reportSlowerThan: 0,              // Karma will report all the tests that are slower than given time limit (in ms). This is disabled by default (since the default value is 0).
-    reporters: [                      // A list of reporters to use. Possible: dots, progress
-      'dots',
+    reporters: [                      // A list of reporters to use.
+      'mocha',                        // Possible: dots, progress (via plugins: mocha, nyan)
       'coverage'
     ],
     singleRun: false,                 // Continuous Integration mode if true.
