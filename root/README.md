@@ -24,6 +24,16 @@ also available, thanks to:
 
 Tests are configured to run in PhantomJS, Chrome & Safari (more can be added).
 
+There are also a number of useful Grunt tasks:
+
+* JS linting with [grunt-contrib-jshint](https://github.com/gruntjs/grunt-contrib-jshint)
+* JS minification with [grunt-contrib-ugligy](https://github.com/gruntjs/grunt-contrib-uglify)
+* AMD packaging with [grunt-contrib-requirejs](https://github.com/gruntjs/grunt-contrib-requirejs) and [almond](https://github.com/jrburke/almond)
+* Handlebars pre-compilation with [grunt-contrib-handlebars](https://github.com/gruntjs/grunt-contrib-handlebars)
+* LESS compilation with [grunt-contrib-less](https://github.com/gruntjs/grunt-contrib-less)
+* CSS auto-prefixing with [grunt-autoprefixer](https://github.com/nDmitry/grunt-autoprefixer)
+* image optimisation with [grunt-contrib-imagemin](https://github.com/gruntjs/grunt-contrib-imagemin)
+
 ## Requirements
 
 ```bash

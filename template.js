@@ -35,6 +35,7 @@ exports.template = function(grunt, init, done) {
     props.node_version = '>= 0.10.0';
     props.devDependencies = {
       "grunt": "~0.4.2",
+      "grunt-autoprefixer": "^0.8.1",
       "grunt-contrib-clean": "~0.5.0",
       "grunt-contrib-concat": "~0.4.0",
       "grunt-contrib-connect": "~0.8.0",

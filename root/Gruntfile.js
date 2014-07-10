@@ -11,6 +11,14 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
+    /* see https://github.com/nDmitry/grunt-autoprefixer */
+    autoprefixer: {
+      options: {},
+      append: {
+        src: '.tmp/css/*.css'
+      }
+    },
+
     /* see: https://github.com/gruntjs/grunt-contrib-clean */
     clean: {
       all: {
@@ -97,7 +105,7 @@ module.exports = function(grunt) {
       }
     },
 
-    /* see: */
+    /* see: https://github.com/gruntjs/grunt-contrib-imagemin */
     imagemin: {
       options: {
         interlaced: true,       // Interlace GIF for progressive rendering.
@@ -126,7 +134,8 @@ module.exports = function(grunt) {
       app: {
         src: [
           'app/**/*.js',
-          'config/**/*.js'
+          'config/**/*.js',
+          '!app/**/(bundle).js'
         ]
       },
       test: {
@@ -243,19 +252,19 @@ module.exports = function(grunt) {
       },
       app: {
         files: '<%= jshint.app.src %>',
-        tasks: ['jshint:app', 'requirejs', 'generate:viewbundle']
+        tasks: ['build:js']
       },
       less: {
         files: 'less/**/*.less',
-        tasks: ['less', 'concat:css']
+        tasks: ['build:css']
       },
       templates: {
         files: 'app/templates/**/*.hbs',
-        tasks: ['handlebars:templates', 'uglify', 'requirejs']
+        tasks: ['build:tmpl']
       },
       test: {
         files: '<%= jshint.test.src %>',
-        tasks: ['jshint:test', 'karma:unit']
+        tasks: ['test']
       }
     }
 
@@ -309,21 +318,36 @@ module.exports = function(grunt) {
 
   // tasks
   grunt.registerTask('test', [
+    'jshint:test',
     'karma:unit'
+  ]);
+
+  grunt.registerTask('build:css', [
+    'less',
+    'autoprefixer:append',
+    'concat:css'
+  ]);
+
+  grunt.registerTask('build:js', [
+    'generate:loaders',
+    'generate:viewbundle',
+    'jshint:app',
+    'requirejs',
+    'copy'
+  ]);
+
+  grunt.registerTask('build:tmpl', [
+    'handlebars',
+    'uglify:templates',
+    'requirejs'
   ]);
 
   grunt.registerTask('build', [
     'clean:all',
-    'generate:loaders',
-    'generate:viewbundle',
-    'jshint',
+    'build:tmpl',
+    'build:js',
+    'build:css',
     'newer:imagemin',
-    'handlebars',
-    'less',
-    'requirejs',
-    'copy',
-    'concat',
-    'uglify'
   ]);
 
   grunt.registerTask('default', [
