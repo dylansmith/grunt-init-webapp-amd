@@ -15,7 +15,7 @@ exports.description = 'Scaffolds a project for browser-based development';
 exports.warnOn = 'Gruntfile.js';
 
 exports.after = 'Now install project dependencies with _npm install && ' +
-  'bower install_. After that, run the build with _grunt_.';
+  'bower install_.\nAfter that, run the build with _grunt_.';
 
 // The actual init template.
 exports.template = function(grunt, init, done) {
@@ -28,10 +28,7 @@ exports.template = function(grunt, init, done) {
   ], function(err, props) {
 
     props.description = 'grunt-init template for scaffolding a project for browser-based development',
-    props.private = 'true',
     props.repository = 'https://github.com/dylansmith/grunt-init-browser',
-    props.lib_dir = 'src';
-    props.test_dir = 'test';
     props.node_version = '>= 0.10.0';
     props.devDependencies = {
       "grunt": "~0.4.2",
@@ -47,8 +44,11 @@ exports.template = function(grunt, init, done) {
       "grunt-contrib-requirejs": "^0.4.4",
       "grunt-contrib-uglify": "~0.4.0",
       "grunt-contrib-watch": "~0.6.0",
+      "grunt-docco": "^0.3.3",
+      "grunt-jsdoc": "^0.5.6",
       "grunt-karma": "^0.8.3",
       "grunt-newer": "~0.7.0",
+      "grunt-plato": "^1.1.0",
       "jshint-stylish": "~0.1.5",
       "karma": "^0.12.16",
       "karma-chrome-launcher": "^0.1.4",
@@ -61,6 +61,7 @@ exports.template = function(grunt, init, done) {
       "karma-requirejs": "^0.2.2",
       "karma-safari-launcher": "^0.1.1",
       "karma-sinon-chai": "^0.2.0",
+      "load-grunt-config": "^0.12.0",
       "load-grunt-tasks": "~0.4.0",
       "mocha": "*",
       "requirejs": "^2.1.14",

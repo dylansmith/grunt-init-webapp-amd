@@ -1,3 +1,14 @@
+/**
+ * @module core
+ * @requires lodash
+ * @requires jquery
+ * @requires modernizr
+ * @requires bootstrap
+ * @requires backbone
+ * @requires handlebars
+ * @requires templates
+ * @requires config
+ */
 define([
     'lodash',
     'jquery',

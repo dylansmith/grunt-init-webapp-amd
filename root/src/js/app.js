@@ -1,3 +1,9 @@
+/**
+ * @module app
+ * @requires core
+ * @requires router
+ * @requires views/home
+ */
 define([
     'core',
     'router',
@@ -7,14 +13,44 @@ define([
 function(core, Router, HomeView) {
     'use strict';
 
+    /**
+     * @exports app
+     */
     var App = {
 
+        /**
+         * Has the application been initialised already?
+         * @type {Boolean}
+         */
         initialised: false,
+
+        /**
+         * The appliation config
+         * @type {Config}
+         */
         config: core.config,
+
+        /**
+         * The active View instance
+         * @type {views.BaseView}
+         */
         currentView: null,
+
+        /**
+         * The current Router instance
+         * @type {Backbone.Router}
+         */
         router: new Router(),
+
+        /**
+         * Compiled Handlebars templates
+         * @type {Object}
+         */
         templates: core.templates,
 
+        /**
+         * Initialises the application
+         */
         init: function() {
             // set the environment
             var env = $('meta[name="application-env"]').attr('content');
@@ -49,6 +85,11 @@ function(core, Router, HomeView) {
             this.initialised = true;
         },
 
+        /**
+         * Event handler that responds to configuration changes
+         * @private
+         * @param  {Backbone.Events} evt
+         */
         configObserver: function(evt) {
             var renderableKeys = ['theme'];
             // writes renderable config keys to the DOM as body attributes
@@ -62,10 +103,19 @@ function(core, Router, HomeView) {
             }
         },
 
+        /**
+         * Renders the active View
+         */
         render: function() {
             this.currentView.render();
         },
 
+        /**
+         * Sets the active View
+         * @param {String}   viewId   Path to the View module
+         * @param {Function} callback Success callback
+         * @param {Function} errback  Error callback
+         */
         setView: function(viewId, callback, errback) {
             var app = this;
             try {
@@ -98,6 +148,10 @@ function(core, Router, HomeView) {
             }
         },
 
+        /**
+         * Sets the current theme
+         * @param {String} themeId The unique theme id
+         */
         setTheme: function(themeId) {
             this.config.set('theme', themeId);
             this.render();

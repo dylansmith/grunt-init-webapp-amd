@@ -1,38 +1,6 @@
 # grunt-init-browser
 
-grunt-init template for scaffolding a project for browser-based development
-using the following libraries:
-
-* jQuery
-* Backbone
-* lodash (as a replacement for underscore)
-* Bootstrap
-* Handlebars
-* Modernizr
-* requirejs + almond
-
-Cross-browser testing with multiple assertion libraries, AMD support and coverage reports is
-also available, thanks to:
-
-* Karma
-* Mocha
-* Sinon
-* Chai
-* Expect
-* Should
-* Istanbul
-
-Tests are configured to run in PhantomJS, Chrome & Safari (more can be added).
-
-There are also a number of useful Grunt tasks:
-
-* JS linting with [grunt-contrib-jshint](https://github.com/gruntjs/grunt-contrib-jshint)
-* JS minification with [grunt-contrib-ugligy](https://github.com/gruntjs/grunt-contrib-uglify)
-* AMD packaging with [grunt-contrib-requirejs](https://github.com/gruntjs/grunt-contrib-requirejs) and [almond](https://github.com/jrburke/almond)
-* Handlebars pre-compilation with [grunt-contrib-handlebars](https://github.com/gruntjs/grunt-contrib-handlebars)
-* LESS compilation with [grunt-contrib-less](https://github.com/gruntjs/grunt-contrib-less)
-* CSS auto-prefixing with [grunt-autoprefixer](https://github.com/nDmitry/grunt-autoprefixer)
-* image optimisation with [grunt-contrib-imagemin](https://github.com/gruntjs/grunt-contrib-imagemin)
+grunt-init template for scaffolding a project for browser-based development.
 
 ## Requirements
 
@@ -53,16 +21,109 @@ $ grunt
 $ open public/index.dev.html
 ```
 
+## Usage
+
+### Runtime libraries
+
+The following libraries are available via [bower](http://bower.io):
+
+* [jquery](https://github.com/jquery/jquery)
+* [backbone](https://github.com/jashkenas/backbone)
+* [lodash](https://github.com/lodash/lodash)
+* [bootstrap](https://github.com/twbs/bootstrap)
+* [handlebars](https://github.com/wycats/handlebars.js)
+* [modernizr](https://github.com/Modernizr/Modernizr)
+* [requirejs](https://github.com/jrburke/requirejs-bower)
+* [almond](https://github.com/jrburke/almond)
+
+### Testing
+
+Cross-browser testing with multiple assertion libraries and AMD support is available, and
+tests are configured to run in PhantomJS, Chrome & Safari (more can be added). The following
+testing tools are available:
+
+* [karma](https://www.npmjs.org/package/grunt-karma)
+* [mocha](https://www.npmjs.org/package/mocha)
+* [sinon](https://www.npmjs.org/package/karma-sinon-chai)
+* [chai](https://www.npmjs.org/package/karma-sinon-chai)
+* [expect](https://www.npmjs.org/package/karma-expect)
+* [should](https://www.npmjs.org/package/should)
+
+### Reporting
+
+The following reports are automatically generated during the build:
+
+* Documentation: [jsdoc](https://www.npmjs.org/package/grunt-jsdoc)
+* Documentation: [docco](https://www.npmjs.org/package/grunt-docco)
+* Test coverage: [karma-coverage](https://www.npmjs.org/package/karma-coverage)
+* Code analysis: [plato](https://www.npmjs.org/package/grunt-plato)
+
+### Grunt tasks
+
+The following grunt tasks are available:
+
+    grunt build:css
+
+> * LESS compilation with [less](https://github.com/gruntjs/grunt-contrib-less)
+> * Concatenation with [concat](https://github.com/gruntjs/grunt-contrib-concat)
+> * CSS auto-prefixing with [autoprefixer](https://github.com/nDmitry/grunt-autoprefixer)
+
+    grunt build:js
+
+> * JS linting with [jshint](https://github.com/gruntjs/grunt-contrib-jshint)
+> * AMD packaging with [requirejs](https://github.com/gruntjs/grunt-contrib-requirejs) and [almond](https://github.com/jrburke/almond)
+> * JS minification with [uglify](https://github.com/gruntjs/grunt-contrib-uglify)
+
+    grunt build:tmpl
+
+> * Handlebars pre-compilation with [handlebars](https://github.com/gruntjs/grunt-contrib-handlebars)
+> * Compiled template minification with [uglify](https://github.com/gruntjs/grunt-contrib-uglify)
+
+    grunt imagemin
+
+> image optimisation with [imagemin](https://github.com/gruntjs/grunt-contrib-imagemin)
+
+    grunt build
+
+> Shorthand for `grunt clean build:tmpl build:css build:js newer:imagemin`
+
+    grunt test
+
+> Runs the test suite against PhantomJS and generates coverage reports.
+
+    grunt test_all
+
+> Runs the test suite against PhantomJS, Chrome and Safari and generates coverage reports.
+
+    grunt reporting
+
+> Generates documentation and code analysis reports
+> Shorthand for `grunt jsdoc docco plato`
+
+    grunt
+
+> Shorthand for `grunt build test reporting`
+
+
+## Other useful things
+
+* an [.editorconfig](root/.editorconfig) file
+* a comprehensive [.jshintrc](root/.jshintc) with comments
+* modularised grunt configuration using
+[load-grunt-tasks](https://www.npmjs.org/package/load-grunt-tasks) and
+[load-grunt-config](https://www.npmjs.org/package/load-grunt-config)
+
+
 ## Demo application
 
 The demo application is very basic Backbone app with the following structure:
 
-* an [application object](app/app.js) that gets things going
-* an observable [configuration object](config/config.js) that stores application state
-* a [HomeView](app/views/home.js) that renders a [handlebars template](app/templates/home.hbs)
+* an [application object](root/src/js/app.js) that gets things going
+* an observable [configuration object](root/src/js/config.js) that stores application state
+* a [HomeView](root/src/js/views/home.js) that renders a [handlebars template](root/src/templates/home.hbs)
   when the app is initialised
-* a [router](app/router.js) that allows the app to switch views, falling back to a 404 view
-* an [application stylesheet](less/app.less)
+* a [router](root/src/js/router.js) that allows the app to switch views, falling back to a 404 view
+* an [application stylesheet](root/src/styles/app.less)
 
 ### Changing the theme
 
