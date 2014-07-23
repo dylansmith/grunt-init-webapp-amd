@@ -12,8 +12,8 @@ module.exports = {
         files: [{
             cwd: 'dist/img/',           // Src matches are relative to this path
             dest: 'dist/img/',          // Destination path prefix
-            expand: true,                 // Enable dynamic expansion
-            src: ['**/*.{png,jpg,gif}']   // Actual patterns to match
+            expand: true,               // Enable dynamic expansion
+            src: ['**/*.{png,jpg,gif}'] // Actual patterns to match
         }]
     }
 };

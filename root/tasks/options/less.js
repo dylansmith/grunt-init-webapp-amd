@@ -27,7 +27,7 @@ module.exports = {
     },
     build: {
         files: {
-            'build/css/app.css': 'src/styles/*.less'
+            'build/styles/app.css': 'src/styles/*.less'
         }
     },
 };

@@ -4,7 +4,7 @@
 module.exports = {
     tmpl: {
         files: {
-            'build/templates.min.js': ['build/templates.js']
+            'build/templates/templates.min.js': ['build/templates/templates.js']
         }
     }
 };

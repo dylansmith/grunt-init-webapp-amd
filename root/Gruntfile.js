@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 
     // tasks are defined in tasks/*.js
     grunt.loadTasks('tasks');
-    grunt.registerTask('default', ['build', 'test']);
+    grunt.registerTask('default', ['build', 'test', 'reporting']);
     grunt.initConfig(config);
 
 };

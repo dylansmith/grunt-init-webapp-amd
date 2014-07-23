@@ -13,8 +13,7 @@ module.exports = {
     },
     test: {
         options: {
-            // using "should" requires expressions without assignment
-            expr: true
+            expr: true  // using "should" requires expressions without assignment
         },
         src: ['test/**/*.spec.js']
     }

@@ -27,9 +27,17 @@ define(function(require) {
             config.getenv().should.equal('dev');
         });
 
+        it('#init should be chainable', function() {
+            config.init(test, 'dev').should.equal(config);
+        });
+
         it('#setenv should set the current environment', function() {
             config.setenv('prod');
             config.getenv().should.equal('prod');
+        });
+
+        it('#setenv should be chainable', function() {
+            config.setenv('prod').should.equal(config);
         });
 
         it('#getenv should return the current environment', function() {
@@ -70,6 +78,26 @@ define(function(require) {
                 expect(test.common.baz).to.equal(undefined);
                 expect(test.dev.baz).to.equal(undefined);
                 expect(config.get('baz')).to.equal(undefined);
+            });
+
+        });
+
+        describe('#set', function() {
+
+            it('should create a new property value if the property does not exist', function() {
+                expect(config.get('nope')).to.equal(undefined);
+                config.set('nope', 'yep');
+                config.get('nope').should.equal('yep');
+            });
+
+            it('should udpate a property value if the property exists', function() {
+                config.get('foo').should.equal(test.common.foo);
+                config.set('foo', 'newfoo');
+                config.get('foo').should.equal('newfoo');
+            });
+
+            it('should be chainable', function() {
+                config.set('foo', 'newfoo').should.equal(config);
             });
 
         });

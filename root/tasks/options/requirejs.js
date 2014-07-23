@@ -13,7 +13,7 @@ module.exports = {
                 'lodash'    : '../../bower_components/lodash/dist/lodash',
                 'modernizr' : '../../bower_components/modernizr/modernizr',
                 'underscore': '../../bower_components/underscore/underscore',
-                'templates' : '../../build/templates'
+                'templates' : '../../build/templates/templates'
             },
             shim: {
                 'bootstrap' : [ 'jquery' ],

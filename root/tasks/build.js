@@ -3,8 +3,8 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build:css', [
         'less',
-        'autoprefixer:build',
-        'concat:css'
+        'concat:css',
+        'autoprefixer:dist',
     ]);
 
     grunt.registerTask('build:js', [
@@ -27,7 +27,7 @@ module.exports = function(grunt) {
         'build:tmpl',
         'build:js',
         'build:css',
-        'newer:imagemin',
+        'newer:imagemin'
     ]);
 
 };

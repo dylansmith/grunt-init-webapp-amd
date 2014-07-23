@@ -1,9 +1,17 @@
+/**
+ * @module router
+ * @requires core
+ */
 define([
     'core'
 ], function (core) {
     'use strict';
 
-    var Router = core.Backbone.Router.extend({
+    /**
+     * @exports router
+     * @extends Backbone.Router
+     */
+    var router = core.Backbone.Router.extend({
         routes: {
             ''          : 'home',
             'home'      : 'home',
@@ -12,6 +20,6 @@ define([
         }
     });
 
-    return Router;
+    return router;
 
 });

@@ -2,7 +2,7 @@
 
 /* see https://github.com/nDmitry/grunt-autoprefixer */
 module.exports = {
-    build: {
-        src: ['build/**/*.css']
+    dist: {
+        src: ['dist/css/**/*.css']
     }
 };

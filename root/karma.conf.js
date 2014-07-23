@@ -7,7 +7,7 @@ module.exports = function(config) {
         browserDisconnectTolerance: 0,    // The number of disconnections tolerated.
         browserNoActivityTimeout: 10000,  // How long does Karma wait for a message from a browser before disconnecting it (in ms).
         browsers: [                       // Possible: Chrome, ChromeCanary, PhantomJS, Firefox, Opera, Internet Explorer, Safari
-                'PhantomJS'
+            'PhantomJS'
         ],
         captureTimeout: 60000,            // Timeout for capturing a browser (in ms).
         client: {
@@ -16,14 +16,20 @@ module.exports = function(config) {
             }
         },
         colors: true,                     // Enable or disable colors in the output (reporters and logs).
+        coverageReporter: {
+            reporters: [
+                {type: 'lcov', dir: 'build/reports/coverage/'},
+                {type: 'text', dir: 'build/reports/coverage/'}
+            ]
+        },
         exclude: [                        // List of files/patterns to exclude from loaded files.
-            'coverage',
+            'build',
             'dist',
             'tasks'
         ],
         files: [                          // List of files/patterns to load in the browser.
             { pattern: 'bower_components/**/*.js', included: false },
-            { pattern: 'build/**/*.*', included: false },
+            { pattern: 'build/templates/**/*.js', included: false },
             { pattern: 'src/js/**/*.js', included: false },
             { pattern: 'test/**/*.spec.js', included: false },
             'test/loader.js'
@@ -46,7 +52,7 @@ module.exports = function(config) {
         proxyValidateSSL: true,           // Whether or not karma or any browsers should raise an error when an inavlid SSL certificate is found.
         reportSlowerThan: 0,              // Karma will report all the tests that are slower than given time limit (in ms). This is disabled by default (since the default value is 0).
         reporters: [                      // A list of reporters to use.
-            'mocha',                        // Possible: dots, progress (via plugins: mocha, nyan)
+            'mocha',                      // Possible: dots, progress (via plugins: mocha, nyan)
             'coverage'
         ],
         singleRun: false,                 // Continuous Integration mode if true.

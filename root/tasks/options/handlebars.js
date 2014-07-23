@@ -24,7 +24,7 @@ module.exports = {
     },
     build: {
         files: {
-          'build/templates.js': ['src/templates/**/*.hbs']
+          'build/templates/templates.js': ['src/templates/**/*.hbs']
         }
     }
 };
