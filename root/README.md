@@ -14,9 +14,9 @@ $ npm install -g bower
 ## Installation
 
 ```bash
-$ git clone https://github.com/dylansmith/grunt-init-browser ~/.grunt-init/browser
+$ git clone https://github.com/dylansmith/grunt-init-webapp-amd ~/.grunt-init/webapp-amd
 $ mkdir ~/my-project && cd ~/my-project
-$ grunt-init browser
+$ grunt-init webapp-amd
 $ npm install && bower install
 $ grunt
 $ open public/index.dev.html
