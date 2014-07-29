@@ -5,14 +5,13 @@ define(function(require) {
 
         var BaseView = require('views/base'),
             core = require('core'),
-            _ = require('lodash'),
             $ = require('jquery'),
             view,
             container;
 
         beforeEach(function() {
             // create a mock compiled template
-            core.templates.BaseViewTest = function(context) {
+            core.templates.BaseViewTest = function() {
                 return 'foobar';
             };
 
@@ -39,20 +38,20 @@ define(function(require) {
             it('should populate the container with the template output', function() {
                 container.html().should.equal('');
                 view.render();
-                container.html().should.equal(view.template());
+                container.html().should.equal(view.renderTemplate());
             });
 
         });
 
-        describe('#template', function() {
+        describe('#renderTemplate', function() {
 
             it('should return an empty string if no valid template is defined', function() {
                 view.templateId = null;
-                view.template().should.equal('');
+                view.renderTemplate().should.equal('');
             });
 
             it('should return the rendered template output if a valid template is defined', function() {
-                view.template().should.equal(core.templates.BaseViewTest());
+                view.renderTemplate().should.equal(core.templates.BaseViewTest());
             });
 
         });

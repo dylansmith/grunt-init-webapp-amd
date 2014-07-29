@@ -12,8 +12,7 @@ module.exports = {
                 'jquery'    : '../../bower_components/jquery/dist/jquery',
                 'lodash'    : '../../bower_components/lodash/dist/lodash',
                 'modernizr' : '../../bower_components/modernizr/modernizr',
-                'underscore': '../../bower_components/underscore/underscore',
-                'templates' : '../../build/templates/templates'
+                'underscore': '../../bower_components/underscore/underscore'
             },
             shim: {
                 'bootstrap' : [ 'jquery' ],

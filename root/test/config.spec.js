@@ -19,29 +19,35 @@ define(function(require) {
                 }
             };
 
-        afterEach(function() {
-            config.init(test, 'dev');
+        beforeEach(function() {
+            config.init('dev', test);
         });
 
         it('should default to the "dev" environment', function() {
-            config.getenv().should.equal('dev');
+            require('config').getenv().should.equal('dev');
         });
 
         it('#init should be chainable', function() {
-            config.init(test, 'dev').should.equal(config);
+            config.init('dev', test).should.equal(config);
         });
 
-        it('#setenv should set the current environment', function() {
-            config.setenv('prod');
-            config.getenv().should.equal('prod');
-        });
+        describe('#setenv', function() {
 
-        it('#setenv should be chainable', function() {
-            config.setenv('prod').should.equal(config);
+            it('should set the current environment', function() {
+                config.getenv().should.not.equal('prod');
+                config.setenv('prod');
+                config.getenv().should.equal('prod');
+            });
+
+            it('#setenv should be chainable', function() {
+                config.setenv('prod').should.equal(config);
+            });
+
         });
 
         it('#getenv should return the current environment', function() {
-            config.getenv().should.equal(config.env);
+            config.getenv().should.equal(config._env);
+            config.getenv().should.equal('dev');
         });
 
         it('#getAll should return a copy of all config values', function() {

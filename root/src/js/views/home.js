@@ -30,7 +30,7 @@ function(core, BaseView) {
          */
         getState: function() {
             return {
-                config: JSON.stringify(core.config.vals)
+                config: JSON.stringify(core.config.getAll())
             };
         }
     });

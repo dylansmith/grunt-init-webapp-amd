@@ -5,7 +5,7 @@ module.exports = {
     css: {
         src: [
             'bower_components/bootstrap/dist/css/bootstrap.min.css',
-            'build/styles/**/*.css'
+            'dist/css/app.css'
         ],
         dest: 'dist/css/app.css'
     }

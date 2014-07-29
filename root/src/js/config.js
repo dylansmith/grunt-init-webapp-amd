@@ -10,7 +10,7 @@ define([
 function(_, Backbone) {
     'use strict';
 
-    var __CONFIG = {
+    var DEFAULTS = {
         // common/default configuration for all environments
         common: {
             name: 'App',
@@ -30,36 +30,46 @@ function(_, Backbone) {
     };
 
     /**
-     * @exports config
+     * @class Config
      * @mixes Backbone.Events
      */
-    var config = {
+    function Config(env, vals) {
+        this.init(env, vals);
+    }
+
+    Config.prototype = _.extend(
+    /** @lends Config.prototype */
+    {
+        /**
+         * Current environment name
+         * @private
+         * @type {String}
+         */
+        _env: 'dev',
 
         /**
          * Internal value store
          * @private
          * @type {Object}
          */
-        vals: {},
+        _props: {},
 
         /**
-         * Current environment name
+         * Raw configuration map
          * @private
-         * @type {String}
+         * @type {Object}
          */
-        env: 'dev',
+        _raw: {},
 
         /**
          * Initialise the configuration for a given environment
-         * @param  {Object} vals Map of properties and values to set
          * @param  {String} env  Environment name
-         * @return {config}      (for chainability)
+         * @param  {Object} [vals] Map of properties and values to set
+         * @return {config} (for chainability)
          */
-        init: function(vals, env) {
-            if (_.isObject(vals)) {
-                __CONFIG = vals;
-            }
-            this.setenv(env || this.env);
+        init: function(env, vals) {
+            this._raw = _.assign({}, vals || DEFAULTS);
+            this.setenv(env || this._env);
             return this;
         },
 
@@ -68,17 +78,17 @@ function(_, Backbone) {
          * @return {String}
          */
         getenv: function() {
-            return this.env;
+            return this._env;
         },
 
         /**
          * Sets the configured environment
-         * @param  {String} val Environment name
-         * @return {config}      (for chainability)
+         * @param  {String} env Environment name
+         * @return {config} (for chainability)
          */
-        setenv: function(val) {
-            this.env = val;
-            this.vals = _.assign({}, __CONFIG.common, __CONFIG[val] || {});
+        setenv: function(env) {
+            this._env = env;
+            this._props = _.assign({}, this._raw.common || {}, this._raw[env] || {});
             return this;
         },
 
@@ -88,7 +98,7 @@ function(_, Backbone) {
          * @return {mixed}
          */
         get: function (key) {
-            return this.vals[key];
+            return this._props[key];
         },
 
         /**
@@ -96,20 +106,20 @@ function(_, Backbone) {
          * @return {Object}
          */
         getAll: function() {
-            return _.clone(this.vals, true);
+            return _.clone(this._props, true);
         },
 
         /**
          * Sets a configuration value for the given property key
          * @param {String} key Property key
          * @param {mixed}  val Property value
-         * @return {config}      (for chainability)
+         * @return {config} (for chainability)
          */
         set: function (key, val) {
             var cfg = this,
                 prev = this.get(key);
 
-            this.vals[key] = val;
+            this._props[key] = val;
             this.trigger('config:update', {
                 key: key,
                 oldval: prev,
@@ -118,11 +128,11 @@ function(_, Backbone) {
             });
             return this;
         }
-    };
+    },
     // mix in Backbone.Events
-    _.extend(config, Backbone.Events);
+    Backbone.Events);
 
     // initialise for the dev environment
-    config.init(__CONFIG, 'dev');
-    return config;
+    var instance = new Config('dev');
+    return instance;
 });

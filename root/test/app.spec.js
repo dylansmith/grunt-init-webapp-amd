@@ -4,6 +4,7 @@ define(function(require) {
     describe('App', function() {
 
         var app = require('app'),
+            $ = require('jquery'),
             _ = require('lodash');
 
         beforeEach(function() {
@@ -19,10 +20,6 @@ define(function(require) {
             _.isObject(app.config).should.be.true;
         });
 
-        it('should have a #templates property', function() {
-            _.isObject(app.templates).should.be.true;
-        });
-
         describe('#init', function() {
 
             it('should be exposed via a global namespace if the "js_namespace" config option is set', function() {
@@ -33,13 +30,15 @@ define(function(require) {
 
             it('should attempt to set the environment based on a meta element', function() {
                 app.config.getenv().should.not.equal('prod');
-                $('meta').attr({
+                var meta = $('<meta>');
+                meta.attr({
                     name: 'application-env',
                     content: 'prod'
                 }).appendTo('head');
                 app.init();
                 app.config.getenv().should.equal('prod');
                 app.config.setenv('dev');
+                meta.remove();
             });
 
             it('should initially render the HomeView', function() {
@@ -81,7 +80,7 @@ define(function(require) {
 
         });
 
-        describe('#setView (valid)', function() {
+        describe('#setView', function() {
 
             beforeEach(function(done) {
                 app.setView('home', function() {

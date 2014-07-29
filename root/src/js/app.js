@@ -7,11 +7,12 @@
 define([
     'core',
     'router',
-    'views/home',
-    'views/(bundle)'
+    'views/home'
 ],
 function(core, Router, HomeView) {
     'use strict';
+
+    var $ = core.$;
 
     /**
      * @exports app
@@ -41,12 +42,6 @@ function(core, Router, HomeView) {
          * @type {Backbone.Router}
          */
         router: new Router(),
-
-        /**
-         * Compiled Handlebars templates
-         * @type {Object}
-         */
-        templates: core.templates,
 
         /**
          * Initialises the application
@@ -128,7 +123,7 @@ function(core, Router, HomeView) {
                             callback(app.currentView);
                         }
                     },
-                    function(err) {
+                    function() {
                         app.setView('404', callback, errback);
                     },
                     undefined,

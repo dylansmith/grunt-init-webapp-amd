@@ -35,8 +35,7 @@ function(core) {
          */
         getState: function() {
             return {
-                app: App,
-                core: core
+                config: core.config
             };
         },
 
@@ -45,7 +44,7 @@ function(core) {
          * @return {BaseView} (for chainability)
          */
         render: function() {
-            var content = this.template(this.getState());
+            var content = this.renderTemplate(this.getState());
             this.$el.html(content);
             return this;
         },
@@ -55,7 +54,7 @@ function(core) {
          * @param  {Object} data The template context
          * @return {String}      The template output
          */
-        template: function(data) {
+        renderTemplate: function(data) {
             return (this.templateId && core.templates[this.templateId]) ?
                 core.templates[this.templateId](data) : '';
         }

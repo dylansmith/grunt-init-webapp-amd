@@ -5,9 +5,11 @@ module.exports = {
     build: {
         src: [
             'build/docs',
+            'build/instrument',
+            'build/reports/coverage',
+            // exclude build/reports/plato as they update over time
             'build/styles',
             'build/templates'
-            // exclude build/reports as they may update over time (e.g. plato)
         ]
     },
     dist: {

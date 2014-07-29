@@ -7,4 +7,8 @@ module.exports = function(grunt) {
         'plato'
     ]);
 
+    grunt.registerTask('docs', [
+        'reporting'
+    ]);
+
 };

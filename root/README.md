@@ -1,6 +1,7 @@
-# grunt-init-browser
+# grunt-init-webapp-amd
 
-grunt-init template for scaffolding a project for browser-based development.
+grunt-init template for scaffolding a project for browser-based development, using AMD as the
+module format.
 
 ## Requirements
 
@@ -64,24 +65,25 @@ The following grunt tasks are available:
 
     grunt build:css
 
-> * LESS compilation with [less](https://github.com/gruntjs/grunt-contrib-less)
-> * Concatenation with [concat](https://github.com/gruntjs/grunt-contrib-concat)
-> * CSS auto-prefixing with [autoprefixer](https://github.com/nDmitry/grunt-autoprefixer)
+> * LESS compilation with [less](https://www.npmjs.org/package/grunt-contrib-less)
+> * Concatenation with [concat](https://www.npmjs.org/package/grunt-contrib-concat)
+> * CSS auto-prefixing with [autoprefixer](https://www.npmjs.org/package/grunt-autoprefixer)
 
     grunt build:js
 
-> * JS linting with [jshint](https://github.com/gruntjs/grunt-contrib-jshint)
-> * AMD packaging with [requirejs](https://github.com/gruntjs/grunt-contrib-requirejs) and [almond](https://github.com/jrburke/almond)
-> * JS minification with [uglify](https://github.com/gruntjs/grunt-contrib-uglify)
+> * JS linting with [jshint](https://www.npmjs.org/package/grunt-contrib-jshint)
+> * AMD packaging with [requirejs](https://www.npmjs.org/package/grunt-contrib-requirejs) and
+[almond](https://www.npmjs.org/package/almond)
+> * JS minification with [uglify](https://www.npmjs.org/package/grunt-contrib-uglify)
 
     grunt build:tmpl
 
-> * Handlebars pre-compilation with [handlebars](https://github.com/gruntjs/grunt-contrib-handlebars)
-> * Compiled template minification with [uglify](https://github.com/gruntjs/grunt-contrib-uglify)
+> * Handlebars pre-compilation with [handlebars](https://www.npmjs.org/package/grunt-contrib-handlebars)
+> * Compiled template minification with [uglify](https://www.npmjs.org/package/grunt-contrib-uglify)
 
     grunt imagemin
 
-> image optimisation with [imagemin](https://github.com/gruntjs/grunt-contrib-imagemin)
+> image optimisation with [imagemin](https://www.npmjs.org/package/grunt-contrib-imagemin)
 
     grunt build
 

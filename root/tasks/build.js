@@ -4,21 +4,20 @@ module.exports = function(grunt) {
     grunt.registerTask('build:css', [
         'less',
         'concat:css',
-        'autoprefixer:dist',
+        'autoprefixer',
     ]);
 
     grunt.registerTask('build:js', [
+        'bundle:views',
         'generate:loaders',
-        'generate:viewbundle',
         'jshint:src',
         'requirejs',
         'copy:libs'
     ]);
 
     grunt.registerTask('build:tmpl', [
-        'handlebars',
-        'uglify:tmpl',
-        'generate:viewbundle',
+        'bundle:templates',
+        'bundle:views',
         'requirejs'
     ]);
 

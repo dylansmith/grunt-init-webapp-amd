@@ -1,5 +1,5 @@
-module.exports = function(config) {
-    config.set({
+module.exports = function(karma) {
+    karma.set({
         autoWatch: true,                  // Watch files and execute the tests whenever one of these files changes.
         autoWatchBatchDelay: 250,         // How long Karma should wait in ms after file changes to restart testing
         basePath: './',                   // The root path location that will be used to resolve all relative paths defined in files and exclude. If the basePath configuration is a relative path then it will be resolved to the __dirname of the configuration file.
@@ -29,8 +29,7 @@ module.exports = function(config) {
         ],
         files: [                          // List of files/patterns to load in the browser.
             { pattern: 'bower_components/**/*.js', included: false },
-            { pattern: 'build/templates/**/*.js', included: false },
-            { pattern: 'src/js/**/*.js', included: false },
+            { pattern: 'src/**/*.js', included: false },
             { pattern: 'test/**/*.spec.js', included: false },
             'test/loader.js'
         ],
@@ -41,9 +40,13 @@ module.exports = function(config) {
             'sinon-chai'
         ],
         hostname: 'localhost',            // Hostname to be used when capturing browsers.
-        logLevel: config.LOG_INFO,        // Level of logging.
-        loggers: [{type: 'console'}],     // A list of log appenders to be used. See the documentation for log4js for more information.
-        plugins: ['karma-*'],             // List of plugins to load. A plugin can be a string (in which case it will be required by Karma) or an inlined plugin - Object. By default, Karma loads all siblink modules, that match karma-*.
+        logLevel: karma.LOG_INFO,         // Level of logging.
+        loggers: [                        // A list of log appenders to be used. See the documentation for log4js for more information.
+            {type: 'console'}
+        ],
+        plugins: [                        // List of plugins to load. A plugin can be a string (in which case it will be required by Karma) or an inlined plugin - Object. By default, Karma loads all siblink modules, that match karma-*.
+            'karma-*'
+        ],
         port: 9876,                       // The port where the webserver will be listening.
         preprocessors: {                  // A map of preprocessors to use.
             'src/js/**/*.js': 'coverage'
