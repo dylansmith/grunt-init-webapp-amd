@@ -1,9 +1,9 @@
 {
-  "name": "init-browser-amd",
-  "description": "grunt-init template for scaffolding a project for browser-based development",
+  "name": "grunt-init-webapp-amd",
+  "description": "grunt-init template for scaffolding an AMD project for browser-based development",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dylansmith/grunt-init-browser"
+    "url": "https://github.com/dylansmith/grunt-init-webapp-amd"
   },
   "engines": {
     "node": ">= 0.10.0"
